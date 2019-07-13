@@ -1,0 +1,260 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Gpro pilóta szűrő</title>
+        <script src="jquery.min.js"></script>
+    </head>
+
+    <body>
+        <table id="table" name="table">
+            <thead>
+                <tr>                
+                    <th>Tulajdonság</th>
+                    <th>Minimum</th>
+                    <th>Maximum</th>
+                </tr>
+
+            </thead>
+            <tr>
+                <th>Átlag</th>
+                 <td><input type="text" id="oamin" ></td>
+                 <td><input type="text" id="oamax"></td>
+            </tr>
+            <tr>
+                    <th>Koncentráció</th>
+                     <td><input type="text" id="conmin" ></td>
+                     <td><input type="text" id="conmax"></td>
+            </tr>
+            <tr>
+                    <th>Tehetség</th>
+                     <td><input type="text" id="talmin"></td>
+                     <td><input type="text" id="talmax"></td>
+            </tr>
+            <tr>
+                    <th>Agresszivitás</th>
+                     <td><input type="text" id="agrmin" ></td>
+                     <td><input type="text" id="agrmax"></td>
+            </tr>
+            <tr>
+                <th>Tapasztalat</th>
+                 <td><input type="text" id="xpmin"></td>
+                 <td><input type="text" id="xpmax"></td>
+            </tr>
+            <tr>
+                    <th>Technikai betekintés</th>
+                     <td><input type="text" id="teimin"></td>
+                     <td><input type="text" id="teimax"></td>
+            </tr>
+            <tr>
+                    <th>Erőnlét</th>
+                     <td><input type="text" id="stamin"></td>
+                     <td><input type="text" id="stamax"></td>
+            </tr>
+            <tr>
+                    <th>Karizma</th>
+                     <td><input type="text" id="chamin"></td>
+                     <td><input type="text" id="chamax"></td>
+            </tr>
+            <tr>
+                    <th>Motiváció</th>
+                     <td><input type="text" id="motmin"></td>
+                     <td><input type="text" id="motmax"></td>
+            </tr>
+            <tr>
+                    <th>Hírnév</th>
+                     <td><input type="text" id="repmin" ></td>
+                     <td><input type="text" id="repmax"></td>
+            </tr>
+            <tr>
+                    <th>Súly</th>
+                     <td><input type="text" id="weimin"></td>
+                     <td><input type="text" id="weimax"></td>
+            </tr>
+           
+            <tr>
+                    <th>Kor</th>
+                     <td><input type="text" id="agemin"></td>
+                     <td><input type="text" id="agemax"></td>
+            </tr>
+            <tr>
+                    <th>Fizetés</th>
+                     <td><input type="text" id="salmin"></td>
+                     <td><input type="text" id="salmax"></td>
+            </tr>
+            <tr>
+                    <th>Aláírási díj</th>
+                     <td><input type="text"id="feemin"></td>
+                     <td><input type="text" id="feemax"></td>
+            </tr>
+            <tr>        
+                        <input type="file" id="files" name="files[]" multiple />
+                </tr>
+        </table>
+        <tr>
+                <button id='keres' name='keres' >Keresés</button>
+        </tr>
+       
+
+    </body>
+</html>
+
+
+<script>
+       
+        var json= null;
+
+        $(document).ready(function () {
+                $(document).on('click','a', function() {
+                        window.open($(this).attr('href'));
+                        return false;
+                
+                });
+                 function createList()
+        {
+                $('#drivers').remove();
+                var ul=$('<ul/>').attr('id','drivers');
+                ul.insertAfter('#keres');
+                console.log('list created');
+        }
+                $('#keres').click(function (e) {
+                        e.preventDefault();
+               createList();
+               json.forEach(element => {
+                           if(element['OA'].between(readOA()) 
+                           && element['CON'].between(readCon())
+                           && element['TAL'].between(readTal())
+                           && element['AGG'].between(readAgr())
+                           && element['EXP'].between(readXP())
+                           && element['TEI'].between(readTei())
+                           && element['STA'].between(readSta())
+                           && element['CHA'].between(readCha())
+                           && element['MOT'].between(readMot())
+                           && element['REP'].between(readRep())
+                           && element['WEI'].between(readWei())
+                           && element['AGE'].between(readAge())
+                           && element['SAL'].between(readSal())
+                           && element['FEE'].between(readFee()))
+                           {
+                                  
+                                   var li=$('<li/>');
+                                   var a=$(' <a/>').attr('href','https://gpro.net/gb/DriverProfile.asp?ID='+element['ID']).text(element['NAME']);
+                                   li.append(a);
+                                   $('#drivers').append(li);
+                           }
+
+               });
+                     
+              
+
+              
+        });
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+function handleFileSelect(evt) {
+	var files = evt.target.files; // FileList object
+
+	// files is a FileList of File objects. List some properties.
+	var output = [];
+	for (var i = 0, f; f = files[i]; i++) {
+		var reader = new FileReader();
+
+		// Closure to capture the file information.
+		reader.onload = (function (theFile) {
+			return function (e) {
+				try {
+					json = JSON.parse(e.target.result)['drivers'];
+				} catch (ex) {
+					alert('ex when trying to parse json = ' + ex);
+				}
+			}
+		})(f);
+		reader.readAsText(f);
+
+	}
+
+}
+
+document.getElementById('files').addEventListener('change', handleFileSelect, false);
+  
+        
+});
+function readCon()
+{
+        return readMinMax('con');
+}
+function readOA()
+{
+        return readMinMax('oa');
+}
+function readTal()
+{
+        return readMinMax('tal');
+}
+function readAgr()
+{
+        return readMinMax('agr');
+}
+function readXP()
+{
+        return readMinMax('xp');
+}
+
+function readTei()
+{
+        return readMinMax('tei');
+}
+function readSta()
+{
+        return readMinMax('sta');
+}
+function readCha()
+{
+        return readMinMax('cha');
+}
+
+
+function readMot()
+{
+        return readMinMax('mot');
+}
+function readRep()
+{
+        return readMinMax('rep');
+}
+
+
+function readWei()
+{
+        return readMinMax('wei');
+}
+function readAge()
+{
+        return readMinMax('age');
+}
+
+function readSal()
+{
+        return readMinMax('sal');
+}
+function readFee()
+{
+        return readMinMax('fee');
+}
+function readMinMax(idname)
+{
+        min=parseInt(document.getElementById(idname+'min').value) || 0;
+      
+        max=parseInt(document.getElementById(idname+'min').value) || Number.MAX_SAFE_INTEGER;
+       
+        return[min,max];
+}
+Number.prototype.between = function(a) {
+  var min = Math.min(a[0], a[1]),
+    max = Math.max(a[0], a[1]);
+
+  return this >= min && this <= max;
+};
+
+</script>

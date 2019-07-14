@@ -137,6 +137,8 @@
                            && element['SAL'].between(readSal())
                            && element['FEE'].between(readFee()))
                            {
+
+                                   console.log(element['OA'], readOA());
                                   
                                    var li=$('<li/>');
                                    var a=$(' <a/>').attr('href','https://gpro.net/gb/DriverProfile.asp?ID='+element['ID']).text(element['NAME']);
@@ -244,17 +246,19 @@ function readFee()
 }
 function readMinMax(idname)
 {
-        min=parseInt(document.getElementById(idname+'min').value) || 0;
+        min=parseInt(document.getElementById(idname+'min').value) || -1;
+       
+        
       
-        max=parseInt(document.getElementById(idname+'min').value) || Number.MAX_SAFE_INTEGER;
+        max=parseInt(document.getElementById(idname+'max').value) || Number.MAX_SAFE_INTEGER;
        
         return[min,max];
 }
 Number.prototype.between = function(a) {
-  var min = Math.min(a[0], a[1]),
-    max = Math.max(a[0], a[1]);
-
-  return this >= min && this <= max;
+  var min = Math.min(a[0], a[1]);
+  var  max = Math.max(a[0], a[1]);
+ 
+  return (this >= min && this <= max);
 };
 
 </script>

@@ -121,6 +121,9 @@
                 $('#keres').click(function (e) {
                         e.preventDefault();
                createList();
+			json.sort(function(a,b){
+				return a['EXP'] - b['EXP'];
+			});
                json.forEach(element => {
                            if(element['OA'].between(readOA()) 
                            && element['CON'].between(readCon())

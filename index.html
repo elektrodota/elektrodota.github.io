@@ -120,7 +120,7 @@
                 $('#drivers').remove();
                 var ul=$('<ul/>').attr('id','drivers');
                 ul.insertAfter('#keres');
-                console.log('list created');
+               
         }
                 $('#keres').click(function (e) {
                         e.preventDefault();
@@ -129,7 +129,7 @@
 				return  b['EXP']-a['EXP'] ;
 			});
                json.forEach(element => {
-		       	  console.log(element);
+		       	  
                            if(element['OA'].between(readOA()) 
                            && element['CON'].between(readCon())
                            && element['TAL'].between(readTal())
@@ -148,7 +148,7 @@
 			     )
                            {
 
-                                   console.log(element['OA'], readOA());
+                                  
                                   
                                    var li=$('<li/>');
                                    var a=$(' <a/>').attr('href','https://gpro.net/gb/DriverProfile.asp?ID='+element['ID']).text(element['NAME']);

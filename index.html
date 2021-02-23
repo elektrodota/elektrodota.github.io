@@ -88,6 +88,10 @@
                      <td><input type="text"id="feemin"></td>
                      <td><input type="text" id="feemax"></td>
             </tr>
+	    <tr>
+                     <th>Nemzetiség</th>
+                     <td><input type="text"id="nat"></td>
+            </tr>
             <tr>        
                         <input type="file" id="files" name="files[]" multiple />
                 </tr>
@@ -138,7 +142,9 @@
                            && element['WEI'].between(readWei())
                            && element['AGE'].between(readAge())
                            && element['SAL'].between(readSal())
-                           && element['FEE'].between(readFee()))
+                           && element['FEE'].between(readFee())
+			   && element['NAT'].toLowerCase().contains(readNat())
+			     )
                            {
 
                                    console.log(element['OA'], readOA());
@@ -185,6 +191,10 @@ document.getElementById('files').addEventListener('change', handleFileSelect, fa
   
         
 });
+	
+function readNat(){
+	return document.getElementById("nat").value.trim();
+}
 function readCon()
 {
         return readMinMax('con');

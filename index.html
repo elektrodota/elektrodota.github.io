@@ -129,6 +129,7 @@
 				return  b['EXP']-a['EXP'] ;
 			});
                json.forEach(element => {
+		       	  console.log(element);
                            if(element['OA'].between(readOA()) 
                            && element['CON'].between(readCon())
                            && element['TAL'].between(readTal())

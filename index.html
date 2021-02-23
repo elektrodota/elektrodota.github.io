@@ -144,7 +144,7 @@
                            && element['AGE'].between(readAge())
                            && element['SAL'].between(readSal())
                            && element['FEE'].between(readFee())
-			   && element['NAT'].toLowerCase().contains(readNat())
+			   && element['NAT'].toLowerCase().indexOf(readNat()) !==-1
 			     )
                            {
 
